@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taches index{% endblock %}
+
+{% block body %}
+{% include 'navbar.html.twig' %}
+    <h1 class="text-center text-primary text-4xl mt-10">Ma liste de taches</h1>
+
+    <div class="container mx-auto mt-10">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <ul class="divide-y divide-gray-200">
+                {% for tach in taches %}
+                    {% if tach.user == app.user %}
+                        <li>
+                            <a href="{{ path('app_taches_edit', {'id': tach.id}) }}" class="block hover:bg-gray-50">
+                                <div class="px-4 py-4 sm:px-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-lg leading-6 font-medium text-gray-900">
+                                            {{ tach.description }}
+                                        </div>
+                                        <div class="ml-2 flex-shrink-0 flex">
+                                            <a href="{{ path('app_taches_edit', {'id': tach.id}) }}" class="text-indigo-600 hover:text-indigo-900">
+                                                Modifié
+                                            </a>
+                                            <form method="post" action="{{ path('app_taches_delete', {'id': tach.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tach.id) }}">
+                                                <button class="text-red-600 hover:text-red-900 ml-2" type="submit">Supprimé</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 sm:flex sm:justify-between">
+                                        <div class="sm:flex">
+                                            <div class="mr-6 flex items-center text-sm text-gray-500">
+                                                Crée le: {{ tach.dateCreation ? tach.dateCreation|date('d-m-Y') : '' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li>
+                        <div class="px-4 py-4 sm:px-6">
+                            <p class="text-gray-500">No records found.</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="float-right">
+            <a href="{{ path('app_taches_new') }}" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Ajouter une tache</a>
+        </div>
+    </div>
+
+    
+{% endblock %}

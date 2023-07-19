@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Calendrier{% endblock %}
+
+
+{% block body %}
+{% include './navbar.html.twig' %}
+<h1 class="text-4xl text-primary text-center">Mon Calendrier</h1>
+<div class="w-11/12 mx-auto mt-8 flex flex-col gap-5">
+  <button id="createEventButton" class="text-white float-right bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Créer un événement</button>
+    <div id='calendar'></div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                timeZone:'Europe/Paris',
+                locale:'fr',
+                headerToolbar:{
+                    start:'prev next today',
+                    center:'title',
+                    end:'dayGridMonth,timeGridWeek'
+                },
+                events: JSON.parse('{{ data|raw }}'),
+                editable: true,
+                eventResizableFromStart: true
+            });
+
+            calendar.on('eventChange', (e) => {
+                let url = `/api/${e.event.id}/edit`;
+                let donnees = {
+                    "title": e.event.title,
+                    "description": e.event.extendedProps.description,
+                    "start": e.event.start,
+                    "end": e.event.end,
+                    "backgroundColor": e.event.backgroundColor,
+                    "borderColor": e.event.borderColor,
+                    "textColor": e.event.textColor,
+                    "allDay": e.event.allDay
+                };
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("PUT", url);
+                xhr.send(JSON.stringify(donnees));
+            });
+
+            calendar.render();
+
+            document.getElementById("createEventButton").addEventListener('click', function() {
+                // Code pour créer un nouvel événement
+                // Rediriger vers la page de création d'événement
+                window.location.href = "{{ path('app_calendar_new') }}";
+            });
+
+            document.getElementById("removeEventButton").addEventListener('click', function() {
+                // Code pour supprimer l'événement sélectionné
+                // Récupérer l'ID de l'événement sélectionné et envoyer une requête de suppression
+                let selectedEvent = calendar.getEventById(eventId); // Remplacez eventId par l'ID de l'événement sélectionné
+                if (selectedEvent) {
+                    let deleteUrl = `/api/${selectedEvent.id}`;
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", deleteUrl);
+                    xhr.send();
+                    // Actualiser le calendrier après la suppression de l'événement
+                    selectedEvent.remove();
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Tâche{% endblock %}
+
+{% block body %}
+{% include 'navbar.html.twig' %}
+    <div class="max-w-md mx-auto mt-10">
+        <h1 class="text-2xl font-bold mb-4">Créer une nouvelle tâche</h1>
+
+        <form method="post" action="{{ path('app_taches_new', {'id': tach.id}) }}" class="bg-white shadow-lg rounded-lg p-6">
+            <div class="mb-4">
+                <label for="{{ form.description.vars.id }}" class="block text-gray-700 font-bold mb-2">Description de la tâche</label>
+                {{ form_widget(form.description, {'attr': {'class': 'border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            </div>
+
+            <div class="flex justify-end">
+{{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="text-white bg-primary hover:bg-blue-700 rounded-full py-2 px-4">{{ button_label|default('Save') }}</button>
+                {{ form_end(form) }}
+              
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+
+
+
+<div class="container mx-auto py-8">
+    <h1 class="text-4xl font-bold mb-4">Bonjour {{ user.prenom }}</h1>
+    <h3 class="text-2xl mb-6">Modifier votre profil</h3>
+
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        {{ form_start(form) }}
+            {{ form_row(form.email, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.nom, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.password, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.prenom, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.civilite, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.login, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {{ form_row(form.age, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+            {{ form_row(form.roles, {'attr': {'class': 'border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 w-full'}}) }}
+{% endif %}
+
+            <div class="flex justify-between float-right">
+                <button type="submit" class="text-white bg-primary hover:bg-blue-700 rounded-full py-2 px-6">Enregistrer</button>
+            </div>
+            {{ form_end(form) }}
+    </div>
+</div>
+

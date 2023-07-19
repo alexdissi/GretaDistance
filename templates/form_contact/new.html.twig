@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacter L'administrateur{% endblock %}
+
+{% block body %}
+{% include 'navbar.html.twig' %}
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold mb-4">Contacter l'Administrateur</h1>
+
+        <div class="bg-white shadow rounded-lg p-6 mb-4">
+            <form action="{{ path('app_form_contact_new') }}" method="POST">
+                {{ include('form_contact/_form.html.twig') }}
+
+                <div class="flex gap-5 items-center mt-4">
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <a href="{{ path('app_form_contact_index') }}" class="text-blue-500 hover:underline ml-4">
+                        Back to list
+                    </a>
+                  {%endif%}
+            
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

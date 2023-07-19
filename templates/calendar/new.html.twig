@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un rendez vous{% endblock %}
+
+{% block body %}
+{% include './navbar.html.twig' %}
+    <h1 class="text-center text-primary text-4xl">Ajouter un rdv</h1>
+
+    {{ include('calendar/_form.html.twig') }}
+{% endblock %}

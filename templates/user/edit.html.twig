@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+{% include './navbar.html.twig' %}
+
+    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+    
+{% endblock %}

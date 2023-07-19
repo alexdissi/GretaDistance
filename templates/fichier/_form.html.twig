@@ -1,0 +1,24 @@
+<div class="w-2/4 mx-auto">
+    {{ form_start(form) }}
+    <div class="mb-4">
+        {{ form_label(form.fichier, 'Fichier', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+        <div class="relative">
+            {{ form_widget(form.fichier, {'attr': {'class': 'form-control-file py-2 px-3 border border-gray-300 rounded-lg w-full'}}) }}
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M12 4v16m8-8H4"></path>
+                </svg>
+            </div>
+        </div>
+        {% if form_errors(form.fichier) %}
+            <p class="text-red-500 text-xs italic">{{ form_errors(form.fichier) }}</p>
+        {% endif %}
+    </div>
+    <div class="flex justify-end">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {{ button_label|default('Ajouter') }}
+        </button>
+    </div>
+{{ form_end(form) }}
+</div>
+

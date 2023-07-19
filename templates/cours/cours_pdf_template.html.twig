@@ -1,0 +1,13 @@
+<h1>{{ titre }}</h1>
+<div class="content">
+    {{ contenu|nl2br }}
+</div>
+<div class="author">
+    Auteur: {{ auteur.nom }}
+</div>
+<div class="image">
+    <img src="/assets/image/{{ image }}">
+</div>
+<div class="date">
+    Date d'ajout: {{ dateAjout|date('Y-m-d') }}
+</div>

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+{% include './navbar.html.twig' %}
+
+<div class="container mx-auto py-8">
+    <h1 class="text-4xl font-bold mb-4">Bonjour {{ user.prenom }}</h1>
+    <h3 class="text-2xl mb-6">Modifier votre profil</h3>
+
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <table class="table w-full">
+            <tbody>
+                <tr>
+                    <th class="py-2">Email</th>
+                    <td class="py-2">{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Nom</th>
+                    <td class="py-2">{{ user.nom }}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Prénom</th>
+                    <td class="py-2">{{ user.prenom }}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Civilité</th>
+                    <td class="py-2">{{ user.civilite }}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Login</th>
+                    <td class="py-2">{{ user.login }}</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Âge</th>
+                    <td class="py-2">{{ user.age }} ans</td>
+                </tr>
+                <tr>
+                    <th class="py-2">Compte créé le :</th>
+                    <td class="py-2">{{ user.dateCreation ? user.dateCreation|date('d-m-Y') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flex justify-between mt-20 float-right">
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="text-white bg-primary hover:bg-blue-700 rounded-full py-2 px-6">Modifier</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

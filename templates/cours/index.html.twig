@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    {% include './navbar.html.twig' %}
+
+
+    <div class="flex flex-wrap justify-center items-center gap-8 sm:gap-20">
+        {% if app.user and ('ROLE_ENSEIGNANT' in app.user.roles or 'ROLE_ADMIN' in app.user.roles) %}
+            <div class="flex flex-col items-center justify-center gap-2">
+                <a href="{{ path('app_cours_new') }}" class="text-6xl text-primary">
+                    <i class="fa-solid fa-square-plus"></i>
+                </a>
+                <p class="text-xl sm:text-2xl">
+                    Ajouter un cours
+                </p>
+            </div>
+        {% endif %}
+    
+        <div class="flex flex-col items-center justify-center gap-2">
+            <a href="/calendrier" class="text-6xl text-primary">
+                <i class="fa-solid fa-calendar"></i>
+            </a>
+            <p class="text-xl sm:text-2xl">Calendrier</p>
+        </div>
+    
+        <div class="flex flex-col items-center justify-center gap-2">
+            <a href="{{ path('app_taches_index') }}" class="text-6xl text-primary">
+                <i class="fa-solid fa-list-check"></i>
+            </a>
+            <p class="text-xl sm:text-2xl">To Do List</p>
+        </div>
+    </div>
+   <div class="flex flex-col gap-8 mx-auto">
+    <div class="mt-16">
+  <h1 class="text-4xl font-bold mb-4 text-center ">Mes cours</h1>
+  <h2 class="text-2xl font-bold mb-4 text-center ">Nombre de cours : {{cours|length}}</h2>
+<div>
+   <form action="{{ path('app_cours_index') }}" method="get" class="flex flex-row items-center justify-center gap-8">
+    <select name="categorie" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-56 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <option value="">Toutes les catégories</option>
+        {% for categorie in categories %}
+            <option value="{{ categorie.id }}">{{ categorie.nom }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Filtrer</button>
+</form> 
+</div>
+   </div> 
+
+
+
+
+
+
+    <div class="flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mt-6 gap-x-80 gap-y-20 ">
+            {% for cour in cours %}
+                <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <a href="#">
+                        <img class="rounded-t-lg w-96 h-64" src="/assets/image/{{ cour.image }}" alt="{{cour.alt}}" />
+                    </a>
+                    <div class="p-5">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 text-center dark:text-white">{{ cour.titre }}</h5>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">{{ cour.categorie.nom }}</span>
+                    
+                        <div class="flex flex-row gap-4 items-center justify-end">
+                            <div>
+                                {% if cour.user == app.user %}
+                                    <a href="{{ path('app_cours_edit', {'id': cour.id}) }}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Voir Plus
+                                    <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </a> 
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-gray-500">Aucun cours trouvé.</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="mt-12  mb-6 flex justify-center">
+        {{ knp_pagination_render(cours) }}
+    </div>  
+</div>
+    
+{% endblock %}

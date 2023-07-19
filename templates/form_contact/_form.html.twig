@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+
+<div class="mb-4">
+    {{ form_label(form.titre, 'Titre', {
+        'label_attr': {'class': 'text-gray-800 font-semibold'}
+    }) }}
+    {{ form_widget(form.titre, {
+        'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500'},
+        'required': true
+    }) }}
+</div>
+
+<div class="mb-4">
+    {{ form_label(form.contenu, 'Message', {
+        'label_attr': {'class': 'text-gray-800 font-semibold'}
+    }) }}
+    {{ form_widget(form.contenu, {
+        'attr': {
+            'class': 'w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 resize-y',
+            'required': true
+        }
+    }) }}
+    
+</div>
+
+<button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">{{ button_label|default('Envoyer') }}</button>
+
+{{ form_end(form) }}

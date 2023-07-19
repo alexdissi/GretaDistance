@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le cours{% endblock %}
+
+{% block body %}
+{% include './navbar.html.twig' %}
+    <h1 class="text-4xl text-primary font-bold mb-4 text-center">Modifier votre cours</h1>
+<div class="w-2/4 mx-auto">
+    {{ form_start(form) }}
+    <div class="mb-4">
+        {{ form_label(form.titre, 'Titre', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.titre, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.contenu, 'Contenu', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.contenu, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.dateDebut, 'Date de début', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.dateDebut, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.dateFin, 'Date de fin', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.dateFin, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.video, 'Video', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.video, {'attr': {'class': 'form-control-file'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.fichier, 'Fichier', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.fichier, {'attr': {'class': 'form-control-file'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.image, 'Image', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.alt, 'Alt', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.alt, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <div class="mb-4">
+        {{ form_label(form.categorie, 'Catégorie', {'label_attr': {'class': 'block mb-2'}}) }}
+        {{ form_widget(form.categorie, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+    </div>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enregistrer</button>
+    {{ form_end(form) }}
+    {{ include('cours/_delete_form.html.twig') }}
+</div>
+  
+{% endblock %}

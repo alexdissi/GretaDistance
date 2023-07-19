@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class=" lg:w-2/6 w-4/5 md:w-4/5">
+            <h1 class="text-2xl font-bold text-center mb-6">Inscription</h1>
+
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm, {'attr': {'class': 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}}) }}
+               
+                <div class="mb-4">
+                    {{ form_row(registrationForm.nom, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.prenom, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.plainPassword, {
+                        'label': 'Password',
+                        'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}
+                    }) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.pays, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.civilite, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.login, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.avatar, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_row(registrationForm.age, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+                </div>
+                <div class="mb-4 flex flex-row items-center gap-3">
+
+                    {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'}}) }}
+                    <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 dark:text-blue-500 hover:underline">terms and conditions</a>.</label>
+                </div>
+            
+
+                <div class="flex flex-row items-center gap-3 ">
+                    <a href="/">Retour</a>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Inscription
+                    </button>
+                </div>
+                
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

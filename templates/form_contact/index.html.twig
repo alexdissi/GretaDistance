@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FormContact index{% endblock %}
+
+{% block body %}
+{% include './navbarAdmin.html.twig' %}
+    <div class="mt-10">
+        <h1 class="text-center text-4xl text-primary">Liste des Messages en Attente</h1>
+
+        <div class="flex flex-col">
+            <div class="grid grid-cols-3 gap-4 mt-10 w-3/4 mx-auto">
+                {% for form_contact in form_contacts %}
+                <div class="bg-white rounded shadow p-4">
+                    <h2 class="text-lg font-semibold">{{ form_contact.titre }}</h2>
+<h2 class="text-lg font-semibold">Le {{ form_contact.dateAjout|date('d-m-Y') }}</h2>
+                    <p class="mt-2">{{ form_contact.contenu }}</p>
+                    <p class="mt-2">Envoyé par : {{ form_contact.user.prenom }} {{ form_contact.user.nom }}</p>
+                    <p class="mt-2">Contact : <a href="mailto:{{ form_contact.user.email }}" >{{ form_contact.user.email }}</a></p>
+                    <div class="mt-4 flex justify-end">
+                        <a  class="text-primary ml-2" href="mailto:{{ form_contact.user.email }}" >Repondre</a>
+                        <form method="post" action="{{ path('app_form_contact_delete', {'id': form_contact.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ form_contact.id) }}">
+                            <button class="text-red-500 ml-2">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center">Aucun enregistrement trouvé.</p>
+            {% endfor %}
+            
+            
+            </div>
+
+            <div class="mt-6 flex justify-center">
+                {{ knp_pagination_render(form_contacts) }}
+            </div>
+        </div> 
+    </div>
+{% endblock %}

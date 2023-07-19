@@ -1,0 +1,113 @@
+<nav class="bg-primary text-white">
+    <div class="w-full flex items-center justify-between py-4 px-10">
+        <div class="flex items-center gap-4">
+            <button class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-sm text-sm px-5 py-4 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation"
+            aria-controls="drawer-navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/cours">
+             <i class="fa-regular fa-house text-5xl text-white"></i>
+        </a>
+       
+        </div>
+        {% if not app.user %}
+        <div>
+    <p>
+        Non connecté.</p>
+        </div>
+    {% endif %}
+    {% if app.user %}
+<div class="flex flex-row items-center gap-5">
+    <div>
+        <p>Bonjour {{ app.user.prenom }} {{app.user.nom}}</p>
+    </div>
+    
+    <div class="relative">
+        <button class="focus:outline-none" onclick="toggleLanguageMenu()">
+            <img src="/assets/avatar/{{ app.user.avatar }}" alt="" class="w-14 h-14 rounded-full">
+        </button>
+        
+        <div class="absolute  right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 language-dropdown-menu hidden ">
+            <ul class="py-2 font-medium" role="none">
+                <li>
+                    <a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="block px-4 py-2 text-sm text-gray-700 hover:text-white hover:bg-primary dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                        <div class="inline-flex items-center">
+                          Profil
+                        </div>
+                    </a>
+                </li>
+               
+                <li>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:text-white hover:bg-primary dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                        <div class="inline-flex items-center">
+                      Preferences
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:text-white hover:bg-primary dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
+                        <div class="inline-flex items-center">
+                      Deconnexion
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <script>
+        function toggleLanguageMenu() {
+            var menu = document.querySelector('.language-dropdown-menu');
+            menu.classList.toggle("hidden");
+        }
+        </script>
+    </div>
+    
+</div>
+{% endif %}
+
+
+    </div>
+</nav>
+  <!-- drawer init and show -->
+
+
+  <!-- drawer component -->
+  <div id="drawer-navigation"
+    class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-primary w-80 dark:bg-gray-800"
+    tabindex="-1" aria-labelledby="drawer-navigation-label">
+    <h5 id="drawer-navigation-label"
+      class="text-base font-semibold text-white uppercase dark:text-gray-400">Menu</h5>
+    <nav>
+      <ul class="mt-4  text-white">
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-regular fa-house text-xl"></i>
+          <a href="/cours" class="flex items-center justify-between p-2 rounded-md ">
+Home
+          </a>
+        </li>
+        {% if 'ROLE_ADMIN' in app.user.roles %}
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-solid fa-plus"></i>
+            <a href="/cours/new" class="flex items-center justify-between p-2 rounded-md ">Ajouter un cours</a>
+        </li>
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-solid fa-message"></i>
+            <a href="/form/contact/" class="flex items-center justify-between p-2 rounded-md ">Voir les messages</a>
+        </li>
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-solid fa-file"></i>
+            <a href="{{ path('app_user_index') }}" class="flex items-center justify-between p-2 rounded-md ">Interface Gestion Utilisateur</a>
+        </li>
+        {% endif %}
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-solid fa-file"></i>
+            <a href="{{ path('app_fichier_new') }}" class="flex items-center justify-between p-2 rounded-md ">Fichiers personnels</a>
+        </li>
+        <li class="flex flex-row items-center hover:bg-gray-600 py-3 rounded-xl duration-200 cursor-pointer px-3">
+            <i class="fa-solid fa-question"></i>
+            <a href="{{ path('app_form_contact_new') }}" class="flex items-center justify-between p-2 rounded-md ">Contacter l'administrateur</a>
+        </li>
+      </ul>
+    </nav>
+  </div>

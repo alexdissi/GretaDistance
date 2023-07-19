@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un cours{% endblock %}
+
+{% block body %}
+    {% include './navbar.html.twig' %}
+    <h1 class="text-4xl text-primary text-center">Ajouter un nouveau cours</h1>
+
+    <div class="w-4/6 mx-auto flex flex-col gap-6">
+        <form id="question-form">
+            <label for="question" class="text-red-600">Demander a Gret@ IA un plan de cours sur :</label>
+            <input type="text" id="question-input" name="question" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="Pose une question" />
+            <button type="submit" class="text-white mt-5 bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generer</button>
+        </form>
+      {{ form_start(form) }}
+        <div class="mb-4">
+            <label for="{{ form.titre.vars.id }}" class="block text-sm font-medium text-gray-700">Titre</label>
+            {{ form_widget(form.titre, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+        </div>
+     
+      
+        <div class="mb-4">
+            <label for="{{ form.contenu.vars.id }}" class="block text-sm font-medium text-gray-700">Contenu</label>
+            {{ form_widget(form.contenu, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md contenu'}}) }}
+        </div>
+        
+        <div id="">
+          <br>
+    
+            <div class="loader" id="loader" style="display: none;"></div>
+  <p id="answer-container" ></p>
+        </div>
+        <br>
+        <br>
+        <div class="mb-4">
+            <label for="{{ form.dateDebut.vars.id }}" class="block text-sm font-medium text-gray-700">Date de début</label>
+            {{ form_widget(form.dateDebut, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.dateFin.vars.id }}" class="block text-sm font-medium text-gray-700">Date de fin</label>
+            {{ form_widget(form.dateFin, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.video.vars.id }}" class="block text-sm font-medium text-gray-700">Vidéo du cours</label>
+            {{ form_widget(form.video, {'attr': {'class': 'form-control-file'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.fichier.vars.id }}" class="block text-sm font-medium text-gray-700">Fichier Aditionel</label>
+            {{ form_widget(form.fichier, {'attr': {'class': 'form-control-file'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.image.vars.id }}" class="block text-sm font-medium text-gray-700">Image de Presentation</label>
+            {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.alt.vars.id }}" class="block text-sm font-medium text-gray-700">Alt</label>
+            {{ form_widget(form.alt, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+        </div>
+        
+        <div class="mb-4">
+            <label for="{{ form.categorie.vars.id }}" class="block text-sm font-medium text-gray-700">Catégorie</label>
+            {{ form_widget(form.categorie, {'attr': {'class': 'mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'}}) }}
+        </div>
+        
+        <div class="flex gap-3">
+            <a href="{{ path('app_cours_index') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Retour</a>
+            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ button_label|default('Ajouter') }}</button>
+        </div>
+        
+        {{ form_end(form) }}
+      
+    </div>
+
+    <script>
+      document.getElementById('question-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+    
+        let question = document.getElementById('question-input').value;
+        let loader = document.getElementById('loader');
+        let answerContainer = document.getElementById('answer-container');
+        let textArea = document.querySelector('#cours_contenu');
+        document.getElementById('question-input').value = '';
+        loader.style.display = 'block';
+        answerContainer.innerHTML = '';
+    
+        try {
+          const response = await fetch('/api/gpt', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ question: question }),
+          });
+    
+          const data = await response.json();
+          loader.style.display = 'none';
+          let generatedContent = data.answer;
+    
+          // Remplace les retours à la ligne par des balises <br>
+          generatedContent = generatedContent.replace(/\n/g, '<br>');
+          CKEDITOR.instances.cours_contenu.setData(generatedContent);
+        } catch (error) {
+          loader.style.display = 'none';
+          console.log(error);
+        }
+      });
+    </script>
+    
+      
+
+
+{% endblock %}
+
+
+
+

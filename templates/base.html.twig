@@ -3,14 +3,59 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <script src="https://kit.fontawesome.com/0ca0b97936.js" crossorigin="anonymous"></script>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js" integrity="sha256-8EcfIJRWyvnu/U0OsfCk05x1JGVmeC2a7sJQHrbWYSA=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
+            <style>
+                html, body {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .wrapper {
+                    min-height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .content {
+                    flex: 1;
+                }
+
+                .footer {
+                    flex-shrink: 0;
+                    background-color: #333;
+                    color: #fff;
+                    padding: 10px;
+                    text-align: center;
+                }
+            </style>
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+            <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="wrapper">
+            <div class="content">
+                {% block body %}
+                {% endblock %}
+            </div>
+            <footer class="w-full bg-darkgrey text-white px-10 py-10 text-center flex gap-6 items-center justify-center">
+                <a href="">Gret@ Ile de France</a>
+                <a href="">Mentions Legales</a>
+                <a href="">CGU</a>
+                <a href="">Configuration</a>
+                <a href="">Declaration d'accessibilité</a>
+            </footer>
+        </div>
+
     </body>
 </html>

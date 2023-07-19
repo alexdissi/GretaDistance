@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cours{% endblock %}
+
+{% block body %}
+    {% include 'navbar.html.twig' %}
+    <div class="container mx-auto py-8">
+        <h1 class="text-5xl text-center text-primary xl font-bold mb-4">{{ cour.titre }}</h1>
+
+        <div class="bg-white shadow rounded-lg p-6 mb-4">
+            <div class="flex items-center mb-4">
+                <span class="font-semibold text-gray-600 mr-2">Date de début:</span>
+                <span>{{ cour.dateDebut ? cour.dateDebut|date('Y-m-d') : '' }}</span>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <span class="font-semibold text-gray-600 mr-2">Date de fin:</span>
+                <span>{{ cour.dateFin ? cour.dateFin|date('Y-m-d') : '' }}</span>
+            </div>
+            <div class="flex flex-col mb-4 gap-3">
+                <p class="text-xl">{{ cour.contenu|nl2br }}</p>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <a href="/assets/pdf/{{ cour.fichier }}" class="text-blue-500 hover:underline">Voir les documents</a>
+            </div>
+            <div class="flex items-center mb-4">
+                <span class="font-semibold text-gray-600 mr-2">Video:</span>
+                <video src="/assets/video/{{ cour.video }}" id="player" controls></video>
+            </div>
+
+
+            <div class="flex items-center mb-4">
+                <span class="font-semibold text-gray-600 mr-2">Date d'ajout:</span>
+                <span>{{ cour.dateAjout ? cour.dateAjout|date('Y-m-d') : '' }}</span>
+            </div>
+
+            <div class="flex items-center mb-4">
+                <span class="font-semibold text-gray-600 mr-2">Télécharger Cours PDF:</span>
+                <a href="{{ path('app_generate_pdf', { 'id': cour.id }) }}" target="_blank" class="text-blue-500 hover:underline">Générer PDF du Cours</a>
+            </div>
+        </div>
+
+        <a href="{{ path('app_cours_index') }}" class="text-blue-500 hover:underline">Retour à la liste</a>
+        {% if cour.user == app.user %}
+        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="text-blue-500 hover:underline ml-4">Modifier</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const player = new Plyr('#player', {
+                controls: [
+                    'play-large', // The large play button in the center
+                    'play', // Play/pause playback
+                    'progress', // The progress bar and scrubber for playback and buffering
+                    'duration', // The full duration of the media
+                    'mute', // Toggle mute
+                    'volume', // Volume control
+                    'captions', // Toggle captions
+                    'settings', // Settings menu
+                    'pip', // Picture-in-picture (currently Safari only)
+                    'airplay', // Airplay (currently Safari only)
+                    'download', // Show a download button with a link to either the current source or a custom URL you specify in your options
+                    'fullscreen' // Toggle fullscreen
+                ]
+            });
+        });
+    </script>
+{% endblock %}
